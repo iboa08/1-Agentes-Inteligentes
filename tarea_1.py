@@ -28,7 +28,7 @@ Tarea de desarrollo de entornos y agentes
    de desempeño debe de ser de tener limpios todos los cuartos, con el
    menor numero de acciones posibles, y minimizando subir y bajar en
    relación a ir a los lados. El costo de limpiar es menor a los costos
-   de cualquier acción.
+   de cualquier acción.
 
 2. Diseña un Agente reactivo basado en modelo para este entorno y
    compara su desempeño con un agente aleatorio despues de 100 pasos
@@ -57,9 +57,38 @@ Todos los incisos tienen un valor de 25 puntos sobre la calificación de
 la tarea.
 
 """
-__author__ = 'escribe_tu_nombre'
+__author__ = 'Irving Francisco Borboa Gradias'
 
 import entorno_o
+
+class NueveCuartos(entornos_o.Entorno):
+    
+    def __init__(self, x0=["A", "primer_piso" ,"sucio", "sucio", "sucio"]):
+        """
+        Por default inicialmente el robot está en A y los dos cuartos
+        están sucios
+
+        """
+        self.x = x0[:]
+        self.desempeño = 0
+        
+    def acción_legal(self, acción):
+        return acción in ("ir_Derecha", "ir_Izquierda",
+                          "subir", "bajar", "limpiar", "nada")
+        
+    def transición(self, acción):
+        if not self.acción_legal(acción):
+            raise ValueError("La acción no es legal para este estado")
+            
+        robot, piso, a, b, c = self.x
+        if acción is not "nada" or a is "sucio" or b is "sucio" or c is "sucio":
+            self.desempeño -= 1
+        if acción is "limpiar":
+            self.x["  ABC".find(self.x[0])] = "limpio"
+        elif acción is "ir_Izquierda" and robot is "A":
+            self.x[0] = "B"
+            self.desempeño -= 0.5
+    
 
 # Requiere el modulo entornos_o.py
 # Usa el modulo doscuartos_o.py para reutilizar código
