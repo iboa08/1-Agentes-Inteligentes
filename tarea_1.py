@@ -59,13 +59,14 @@ la tarea.
 """
 __author__ = 'Irving Francisco Borboa Gradias'
 
-import entorno_o
+import entornos_o
+from random import choice
 
 class NueveCuartos(entornos_o.Entorno):
     
     def __init__(self, x0=["A", "primer_piso" ,"sucio", "sucio", "sucio"]):
         """
-        Por default inicialmente el robot está en A y los dos cuartos
+        Por default inicialmente el robot está en A y los tres cuartos
         están sucios
 
         """
@@ -85,9 +86,28 @@ class NueveCuartos(entornos_o.Entorno):
             self.desempeño -= 1
         if acción is "limpiar":
             self.x["  ABC".find(self.x[0])] = "limpio"
-        elif acción is "ir_Izquierda" and robot is "A":
+        elif acción is "ir_Derecha" and robot is "A" and piso is "primer_piso":
             self.x[0] = "B"
-            self.desempeño -= 0.5
+            self.desempeño -= 1
+        elif acción is "ir_Derecha" and robot is "B" and piso is "primer_piso":
+            self.x[0] = "C"
+            self.desempeño -= 1
+        elif acción is "subir" and robot is "C" and piso is "primer_piso":
+            self.x[1] = "segundo_piso"
+            self.desempeño -= 2
+        
+            
+class AgenteAleatorio(entornos_o.Agente):
+    """
+    Un agente que solo regresa una accion al azar entre las acciones legales
+
+    """
+    def __init__(self, acciones):
+        self.acciones = acciones
+
+    def programa(self, percepcion):
+        return choice(self.acciones)
+            
     
 
 # Requiere el modulo entornos_o.py
