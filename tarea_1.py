@@ -86,15 +86,39 @@ class NueveCuartos(entornos_o.Entorno):
             self.desempeño -= 1
         if acción is "limpiar":
             self.x["  ABC".find(self.x[0])] = "limpio"
-        elif acción is "ir_Derecha" and robot is "A" and piso is "primer_piso":
+        elif acción is "ir_Derecha" and robot is "A" and piso is "primer_piso"
+        or piso is "segundo_piso" or piso is "tercer_piso":
             self.x[0] = "B"
             self.desempeño -= 1
-        elif acción is "ir_Derecha" and robot is "B" and piso is "primer_piso":
+        elif acción is "ir_Derecha" and robot is "B" and piso is "primer_piso"
+        or piso is "segundo_piso" or piso is "tercer_piso":
             self.x[0] = "C"
             self.desempeño -= 1
         elif acción is "subir" and robot is "C" and piso is "primer_piso":
             self.x[1] = "segundo_piso"
             self.desempeño -= 2
+        elif acción is "subir" and robot is "C" and piso is "segundo_piso":
+            self.x[1] = "tercer_piso"
+            self.desempeño -= 2
+        elif acción is "ir_izquierda" and robot is "C" and piso is "primer_piso"
+        or piso is "segundo_piso" or piso is "tercer_piso":
+            self.x[0] = "B"
+            self.desempeño -= 1
+        elif acción is "ir_izquierda" and robot is "B" and piso is "primer_piso"
+        or piso is "segundo_piso" or piso is "tercer_piso":
+            self.x[0] = "A"
+            self.desempeño -= 1
+        elif acción is "bajar" and robot is "A" and piso is "tercer_piso":
+            self.x[1] = "segundo_piso"
+            self.desempeño -=2
+        elif acción is "bajar" and robot is "A" and piso is "segundo_piso":
+            self.x[1] = "primer_piso"
+            self.desempeño -=2
+            
+    def percepción(self):
+        return self.x[0], self.x["  ABC".find(self.x[0])]
+        
+            
         
             
 class AgenteAleatorio(entornos_o.Agente):
